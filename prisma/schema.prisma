@@ -1,0 +1,76 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String     @id @default(cuid())
+  discordId String     @unique
+  username  String
+  email     String?    @unique
+  avatar    String?
+  position  String?    @default("Рядовой")
+  rank      String?    @default("Рядовой")
+  department String?
+  status    String     @default("На рассмотрении")
+  isAdmin   Boolean    @default(false)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  
+  news      News[]
+  topics    ForumTopic[]
+  comments  ForumComment[]
+  punishments Punishment[]
+}
+
+model News {
+  id        Int       @id @default(autoincrement())
+  title     String
+  content   String    @db.Text
+  author    User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId  String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model ForumTopic {
+  id        Int       @id @default(autoincrement())
+  title     String
+  content   String    @db.Text
+  section   String    // "Идеи", "Баги", "Печати", "Прочее"
+  author    User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId  String
+  views     Int       @default(0)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  
+  comments  ForumComment[]
+}
+
+model ForumComment {
+  id        Int       @id @default(autoincrement())
+  content   String    @db.Text
+  topic     ForumTopic @relation(fields: [topicId], references: [id], onDelete: Cascade)
+  topicId   Int
+  author    User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId  String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Punishment {
+  id        Int       @id @default(autoincrement())
+  type      String    // "Выговор 1/3", "Выговор 2/3", и т.д.
+  reason    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  issuedBy  String
+  createdAt DateTime  @default(now())
+}
