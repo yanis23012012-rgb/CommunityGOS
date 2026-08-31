@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CommunityGOS | Армия РФ</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #ecf0f1 100%);
+            color: #2c3e50;
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        nav {
+            background: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-bottom: 4px solid #1f77b4;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #1f77b4;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #2c3e50;
+            font-weight: 500;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #1f77b4;
+        }
+
+        .logout-btn {
+            background: #e74c3c;
+            color: white !important;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: #c0392b;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #1f77b4 0%, #1565a0 100%);
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 3rem;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: white;
+            color: #1f77b4;
+        }
+
+        .btn-primary:hover {
+            background: #ecf0f1;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn-secondary {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        /* Sections */
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .section h2 {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: #1f77b4;
+        }
+
+        /* Cards Grid */
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            border-left: 4px solid #1f77b4;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+
+        .card h3 {
+            color: #1f77b4;
+            margin-bottom: 1rem;
+        }
+
+        .card-meta {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #ecf0f1;
+        }
+
+        /* Form */
+        .form-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            max-width: 500px;
+            margin: 0 auto;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #bdc3c7;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #1f77b4;
+            box-shadow: 0 0 5px rgba(31, 119, 180, 0.3);
+        }
+
+        .form-step {
+            display: none;
+        }
+
+        .form-step.active {
+            display: block;
+        }
+
+        .form-step h3 {
+            color: #1f77b4;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .btn-submit {
+            width: 100%;
+            background: #1f77b4;
+            color: white;
+            padding: 1rem;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn-submit:hover {
+            background: #1565a0;
+        }
+
+        /* Dashboard Grid */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-box {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+            border-top: 3px solid #1f77b4;
+        }
+
+        .stat-box .value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #1f77b4;
+            margin: 0.5rem 0;
+        }
+
+        .stat-box .label {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+        }
+
+        /* Footer */
+        footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+
+        .modal-close {
+            float: right;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #7f8c8d;
+        }
+
+        .modal-close:hover {
+            color: #2c3e50;
+        }
+
+        .stats-line {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #ecf0f1;
+        }
+
+        .stats-line:last-child {
+            border-bottom: none;
+        }
+
+        .stats-label {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .stats-value {
+            color: #1f77b4;
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                gap: 1rem;
+                font-size: 0.9rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-logo">🏛️ CommunityGOS</div>
+        <ul class="nav-links" id="navLinks">
+            <li><a onclick="showSection('home')">🏠 Главная</a></li>
+            <li><a onclick="showSection('dashboard')" id="navDashboard" class="hidden">📊 Кабинет</a></li>
+            <li><a onclick="showSection('news')" id="navNews" class="hidden">📰 Новости</a></li>
+            <li><a onclick="showSection('forum')" id="navForum" class="hidden">💬 Форум</a></li>
+            <li><button onclick="logout()" class="logout-btn hidden" id="logoutBtn">🚪 Выход</button></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <!-- Home Section -->
+        <div id="home" class="section active">
+            <div class="hero">
+                <h1>🏛️ CommunityGOS</h1>
+                <p>Официальный портал управления Армией РФ в Roblox RP</p>
+                <div class="btn-group">
+                    <button class="btn btn-primary" onclick="showSection('login')">🔐 Вход в систему</button>
+                    <button class="btn btn-secondary" onclick="showSection('news')">📰 Смотреть новости</button>
+                </div>
+            </div>
+
+            <div class="cards">
+                <div class="card">
+                    <h3>👥 Управление структурой</h3>
+                    <p>Контролируйте всех сотрудников, их ранги и должности</p>
+                </div>
+                <div class="card">
+                    <h3>📚 Новости и приказы</h3>
+                    <p>Публикуйте важные объявления и приказы для всех</p>
+                </div>
+                <div class="card">
+                    <h3>💬 Форум обсуждений</h3>
+                    <p>Общайтесь, делитесь идеями и решайте проблемы вместе</p>
+                </div>
+                <div class="card">
+                    <h3>⚠️ Система наказаний</h3>
+                    <p>Отслеживайте и управляйте дисциплинарными взысканиями</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Login Section -->
+        <div id="login" class="section">
+            <div class="form-container">
+                <div class="form-step active" id="step0">
+                    <h3>📝 Шаг 1: Основные данные</h3>
+                    <div class="form-group">
+                        <label>Discord ник</label>
+                        <input type="text" id="discord" placeholder="user#1234">
+                    </div>
+                    <div class="form-group">
+                        <label>Roblox ник</label>
+                        <input type="text" id="roblox" placeholder="RobloxUser_2026">
+                    </div>
+                    <button class="btn-submit" onclick="nextStep()">Далее →</button>
+                    <button class="btn-submit" style="background: #95a5a6; margin-top: 0.5rem;" onclick="showSection('home')">← Назад</button>
+                </div>
+
+                <div class="form-step" id="step1">
+                    <h3>💼 Шаг 2: Должность и подразделение</h3>
+                    <div class="form-group">
+                        <label>Желаемая должность</label>
+                        <select id="position">
+                            <option>Выберите должность</option>
+                            <option>Министр обороны ВС РФ</option>
+                            <option>Зам. Министра обороны</option>
+                            <option>Начальник Ген штаба</option>
+                            <option>Командир части</option>
+                            <option>Командир роты</option>
+                            <option>Командир ВДВ</option>
+                            <option>Командир ГРУ</option>
+                            <option>Командир ССО</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Подразделение</label>
+                        <select id="department">
+                            <option>Выберите подразделение</option>
+                            <option>Сотрудник ОС</option>
+                            <option>Сотрудник МСВ</option>
+                            <option>Сотрудник РОиО</option>
+                            <option>Сотрудник ВК</option>
+                            <option>Сотрудник ВДВ</option>
+                            <option>Сотрудник ПМП</option>
+                            <option>Сотрудник ВП</option>
+                            <option>Сотрудник ГРУ</option>
+                            <option>Сотрудник ССО</option>
+                        </select>
+                    </div>
+                    <button class="btn-submit" onclick="submitLogin()">✅ Вход</button>
+                    <button class="btn-submit" style="background: #95a5a6; margin-top: 0.5rem;" onclick="prevStep()">← Назад</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard Section -->
+        <div id="dashboard" class="section">
+            <h2>👤 Личный кабинет</h2>
+            
+            <div class="dashboard-grid">
+                <div class="stat-box">
+                    <div class="label">Звание</div>
+                    <div class="value" id="dashRank">-</div>
+                </div>
+                <div class="stat-box">
+                    <div class="label">Должность</div>
+                    <div class="value" id="dashPosition">-</div>
+                </div>
+                <div class="stat-box">
+                    <div class="label">Статус</div>
+                    <div class="value" style="color: #27ae60;">✅ Активен</div>
+                </div>
+                <div class="stat-box">
+                    <div class="label">Активные пользователи</div>
+                    <div class="value">42</div>
+                </div>
+            </div>
+
+            <div class="cards">
+                <div class="card">
+                    <h3>📋 Профиль</h3>
+                    <div class="stats-line">
+                        <span class="stats-label">Discord:</span>
+                        <span class="stats-value" id="profileDiscord">-</span>
+                    </div>
+                    <div class="stats-line">
+                        <span class="stats-label">Roblox:</span>
+                        <span class="stats-value" id="profileRoblox">-</span>
+                    </div>
+                    <div class="stats-line">
+                        <span class="stats-label">Подразделение:</span>
+                        <span class="stats-value" id="profileDept">-</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>⚠️ Наказания</h3>
+                    <div class="stats-line">
+                        <span class="stats-label">Выговор 1/3</span>
+                        <span class="stats-value">25.08.26</span>
+                    </div>
+                    <div class="stats-line">
+                        <span class="stats-label">Выговор 1/3</span>
+                        <span class="stats-value">20.08.26</span>
+                    </div>
+                    <div class="stats-line">
+                        <span class="stats-label">Всего:</span>
+                        <span class="stats-value">3</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- News Section -->
+        <div id="news" class="section">
+            <h2>📰 Новости от администрации</h2>
+            <div class="cards" id="newsList">
+                <div class="card" onclick="openNews(0)" style="cursor: pointer;">
+                    <h3>🎖️ Новое назначение командира части</h3>
+                    <p>Поздравляем товарища Петрова с назначением на должность командира части...</p>
+                    <div class="card-meta">👤 Министр обороны | 📅 2026-08-30</div>
+                </div>
+                <div class="card" onclick="openNews(1)" style="cursor: pointer;">
+                    <h3>📚 Плановые учения армии</h3>
+                    <p>Согласно приказу командования, с 01.09.2026 начинаются плановые учения всех подразделений...</p>
+                    <div class="card-meta">👤 Начальник Ген штаба | 📅 2026-08-28</div>
+                </div>
+                <div class="card" onclick="openNews(2)" style="cursor: pointer;">
+                    <h3>🎯 Открыт новый набор в ВДВ</h3>
+                    <p>В связи с убытием части личного состава, объявляется набор желающих служить в элитном подразделении...</p>
+                    <div class="card-meta">👤 Командир ВДВ | 📅 2026-08-25</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Forum Section -->
+        <div id="forum" class="section">
+            <h2>💬 Форум</h2>
+            <button class="btn btn-primary" onclick="showSection('login')">➕ Новая тема</button>
+            
+            <div style="margin-top: 2rem;">
+                <div style="margin-bottom: 1rem;">
+                    <strong style="color: #1f77b4;">Разделы:</strong>
+                    <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem; flex-wrap: wrap;">
+                        <button class="btn" style="background: #1f77b4; color: white; padding: 0.5rem 1rem; font-size: 0.9rem;">Все темы</button>
+                        <button class="btn" style="background: #95a5a6; color: white; padding: 0.5rem 1rem; font-size: 0.9rem;">Идеи</button>
+                        <button class="btn" style="background: #95a5a6; color: white; padding: 0.5rem 1rem; font-size: 0.9rem;">Баги</button>
+                        <button class="btn" style="background: #95a5a6; color: white; padding: 0.5rem 1rem; font-size: 0.9rem;">Печати</button>
+                        <button class="btn" style="background: #95a5a6; color: white; padding: 0.5rem 1rem; font-size: 0.9rem;">Прочее</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cards" style="margin-top: 2rem;">
+                <div class="card" style="cursor: pointer; border-left: 4px solid #3498db;">
+                    <h3>Вопрос по устройству иерархии</h3>
+                    <p style="font-size: 0.9rem; color: #7f8c8d; margin-top: 0.5rem;">Раздел: Идеи | 👤 Боец#5678 | 💬 8 ответов | 👁️ 124 просмотра</p>
+                    <div class="card-meta">📅 2026-08-30</div>
+                </div>
+                <div class="card" style="cursor: pointer; border-left: 4px solid #e74c3c;">
+                    <h3>Баг с системой наказаний</h3>
+                    <p style="font-size: 0.9rem; color: #7f8c8d; margin-top: 0.5rem;">Раздел: Баги | 👤 Командир#1234 | 💬 5 ответов | 👁️ 89 просмотров</p>
+                    <div class="card-meta">📅 2026-08-29</div>
+                </div>
+                <div class="card" style="cursor: pointer; border-left: 4px solid #f39c12;">
+                    <h3>Опечатка в приказе №5</h3>
+                    <p style="font-size: 0.9rem; color: #7f8c8d; margin-top: 0.5rem;">Раздел: Печати | 👤 Editor#9999 | 💬 2 ответа | 👁️ 45 просмотров</p>
+                    <div class="card-meta">📅 2026-08-27</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- News Modal -->
+    <div id="newsModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal()">✕</span>
+            <h2 id="modalTitle"></h2>
+            <p id="modalContent"></p>
+            <div class="card-meta">
+                <p id="modalAuthor"></p>
+                <p id="modalDate"></p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2026 CommunityGOS - Армия РФ в Roblox RP</p>
+        <p>Портал управления государственной структурой</p>
+    </footer>
+
+    <script>
+        const newsData = [
+            {
+                title: '🎖️ Новое назначение командира части',
+                content: 'Поздравляем товарища Петрова с назначением на должность командира части. Пожелаем ему успехов в служении Отечеству!',
+                author: 'Министр обороны',
+                date: '2026-08-30'
+            },
+            {
+                title: '📚 Плановые учения армии',
+                content: 'Согласно приказу командования, с 01.09.2026 начинаются плановые учения всех подразделений. Приказ прилагается.',
+                author: 'Начальник Ген штаба',
+                date: '2026-08-28'
+            },
+            {
+                title: '🎯 Открыт новый набор в ВДВ',
+                content: 'В связи с убытием части личного состава, объявляется набор желающих служить в элитном подразделении ВДВ.',
+                author: 'Командир ВДВ',
+                date: '2026-08-25'
+            }
+        ];
+
+        let currentUser = null;
+        let currentStep = 0;
+
+        function showSection(sectionId) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Update nav visibility
+            updateNav();
+        }
+
+        function updateNav() {
+            const isLoggedIn = localStorage.getItem('currentUser');
+            const dashboardLinks = ['navDashboard', 'navNews', 'navForum', 'logoutBtn'];
+            const homeLinks = [];
+            
+            dashboardLinks.forEach(id => {
+                const elem = document.getElementById(id);
+                if (isLoggedIn) {
+                    elem.classList.remove('hidden');
+                } else {
+                    elem.classList.add('hidden');
+                }
+            });
+        }
+
+        function nextStep() {
+            const discord = document.getElementById('discord').value;
+            const roblox = document.getElementById('roblox').value;
+            
+            if (!discord || !roblox) {
+                alert('Заполните все поля!');
+                return;
+            }
+            
+            document.getElementById('step0').classList.remove('active');
+            document.getElementById('step1').classList.add('active');
+            currentStep = 1;
+        }
+
+        function prevStep() {
+            document.getElementById('step1').classList.remove('active');
+            document.getElementById('step0').classList.add('active');
+            currentStep = 0;
+        }
+
+        function submitLogin() {
+            const discord = document.getElementById('discord').value;
+            const roblox = document.getElementById('roblox').value;
+            const position = document.getElementById('position').value;
+            const department = document.getElementById('department').value;
+            
+            if (position === 'Выберите должность' || department === 'Выберите подразделение') {
+                alert('Выберите должность и подразделение!');
+                return;
+            }
+            
+            const user = { discord, roblox, position, department };
+            localStorage.setItem('currentUser', JSON.stringify(user));
+            currentUser = user;
+            
+            // Update dashboard
+            document.getElementById('dashRank').textContent = 'Рядовой';
+            document.getElementById('dashPosition').textContent = position.substring(0, 20);
+            document.getElementById('profileDiscord').textContent = discord;
+            document.getElementById('profileRoblox').textContent = roblox;
+            document.getElementById('profileDept').textContent = department;
+            
+            // Reset form
+            document.getElementById('step1').classList.remove('active');
+            document.getElementById('step0').classList.add('active');
+            document.getElementById('discord').value = '';
+            document.getElementById('roblox').value = '';
+            currentStep = 0;
+            
+            updateNav();
+            showSection('dashboard');
+        }
+
+        function logout() {
+            localStorage.removeItem('currentUser');
+            currentUser = null;
+            updateNav();
+            showSection('home');
+            alert('Вы вышли из системы');
+        }
+
+        function openNews(index) {
+            const news = newsData[index];
+            document.getElementById('modalTitle').textContent = news.title;
+            document.getElementById('modalContent').textContent = news.content;
+            document.getElementById('modalAuthor').textContent = '👤 ' + news.author;
+            document.getElementById('modalDate').textContent = '📅 ' + news.date;
+            document.getElementById('newsModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('newsModal').classList.remove('active');
+        }
+
+        // Init
+        window.addEventListener('load', () => {
+            const saved = localStorage.getItem('currentUser');
+            if (saved) {
+                currentUser = JSON.parse(saved);
+                document.getElementById('profileDiscord').textContent = currentUser.discord;
+                document.getElementById('profileRoblox').textContent = currentUser.roblox;
+                document.getElementById('profileDept').textContent = currentUser.department;
+                document.getElementById('dashPosition').textContent = currentUser.position.substring(0, 20);
+            }
+            updateNav();
+        });
+    </script>
+</body>
+</html>
